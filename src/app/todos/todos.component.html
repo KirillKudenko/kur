@@ -1,0 +1,61 @@
+<div class="mt-2 mb-2 form-row">
+  <div class="col-6">
+    <input type="text" id="text" #newItemText
+           placeholder="Введіть завдання"
+           class="form-control"
+           (input)="inputCheck(newItemText.value)"
+    >
+    <!-- <div class="mt-2 mb-2 form-row">
+    <div class="col-2">
+      <input type="text" id="text" #newItemText
+             placeholder="Ціна"
+             class="form-control"
+             (input)="inputCheck(newItemText.value)"
+      > -->
+  </div>
+  <div class="col-4">
+    <select id="selectCategory" #newItemCategory class="form-control" (input)="categoryCheck(newItemCategory.value)">
+      <option selected disabled>
+        Вибрати категорію
+      </option>
+      <option>Покупки</option>
+      <option>Робота</option>
+    </select>
+  </div>
+  <div class="col">
+    <button class="btn btn-success w-100" (click)="addItem(newItemText.value, newItemCategory.value)">
+      Добавити
+    </button>
+  </div>
+</div>
+<div class="d-flex justify-content-between">
+  <a href="#" (click)="toggleOnlyImportant()" class="text-muted small">
+    {{isOnlyImportant() ? 'Показати усе' : 'Показати важливе'}}
+  </a>
+  <a href="#" class="text-danger small" (click)="removeTodoItems()">Видалити закінчене</a>
+</div>
+<div class="text-center p-4 text-muted" *ngIf="getItems().length == 0">
+  Немає записів для виводу
+</div>
+<ul class="list-group list-group-flush">
+  <li
+    *ngFor="let item of getItems()"
+    class="list-group-item d-flex justify-content-between align-items-center"
+    [class.task-important]="item.important"
+    [class.task-completed]="item.completed"
+  >
+    <div class="task-checkbox">
+      <input type="checkbox" [checked]="item.completed" (click)="toggleCompleted(item.id)">
+    </div>
+    <div class="title">
+      {{item.title}}
+    </div>
+    <div class="task-category text-right text-muted small">
+      {{item.category}}
+    </div>
+    <div class="task-star text-right" (click)="toggleImportant(item.id)">
+      <span *ngIf="item.important" class="material-icons">star</span>
+      <span *ngIf="!item.important" class="material-icons">star_border</span>
+    </div>
+  </li>
+</ul>
